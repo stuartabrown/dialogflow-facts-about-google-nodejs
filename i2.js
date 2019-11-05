@@ -1,33 +1,34 @@
-const axios = require("axios");
-  const util = require('util');
+'use strict';
 
-  const {
-    dialogflow,
-    Suggestions,
-    BasicCard,
-    Button,
-    SimpleResponse,
-  } = require('actions-on-google');
-  
-  const {values, concat, random, randomPop} = require('./util');
-  const responses = require('./responses');
-  
-  /** Dialogflow Contexts {@link https://dialogflow.com/docs/contexts} */
-  const AppContexts = {
-    FACT: 'choose_fact-followup',
-    CATS: 'choose_cats-followup',
-  };
-  
-  /** Dialogflow Context Lifespans {@link https://dialogflow.com/docs/contexts#lifespan} */
-  const Lifespans = {
-    DEFAULT: 5,
-  };
+const util = require('util');
+const functions = require('firebase-functions');
+const {
+  dialogflow,
+  Suggestions,
+  BasicCard,
+  Button,
+  SimpleResponse,
+} = require('actions-on-google');
 
+const {values, concat, random, randomPop} = require('./util');
+const responses = require('./responses');
 
-  // Instantiate the Dialogflow client.
-  const app = dialogflow({ debug: true });
+/** Dialogflow Contexts {@link https://dialogflow.com/docs/contexts} */
+const AppContexts = {
+  FACT: 'choose_fact-followup',
+  CATS: 'choose_cats-followup',
+};
 
- app.middleware((conv) => {
+/** Dialogflow Context Lifespans {@link https://dialogflow.com/docs/contexts#lifespan} */
+const Lifespans = {
+  DEFAULT: 5,
+};
+
+const app = dialogflow({
+  debug: true,
+});
+
+app.middleware((conv) => {
   if (!conv.data.facts) {
     // Convert array of facts to map
     conv.data.facts = responses.categories.reduce((o, c) => {
@@ -147,4 +148,7 @@ app.intent('tell_cat_fact', (conv) => {
   conv.ask(responses.general.suggestions.confirmation);
 });
 
-module.exports = app;
+// The entry point to handle a http request
+exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
+// For testing purposes
+exports.testApp = app;
