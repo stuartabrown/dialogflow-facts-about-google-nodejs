@@ -11,8 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// 
-dialogflow / firebase fullfillment url https://us-central1-dialogflow-facts-about-ecb9d.cloudfunctions.net/dialogflowFirebaseFulfillment
+// dialogflow / firebase fullfillment url https://us-central1-dialogflow-facts-about-ecb9d.cloudfunctions.net/dialogflowFirebaseFulfillment
 
 'use strict';
 
