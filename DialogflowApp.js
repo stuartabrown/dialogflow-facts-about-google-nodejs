@@ -1,4 +1,4 @@
-const axios = require("axios");
+  const axios = require("axios");
   const util = require('util');
 
   const {
@@ -28,6 +28,8 @@ const axios = require("axios");
   const app = dialogflow({ debug: true });
 
  app.middleware((conv) => {
+  //  conv is the conversation object seen in example_req_res.js
+  // console.log('HERE IS THE START OF CONV OBJ' + util.inspect(conv, {showHidden: false, depth: null})+ 'HERE IS THE END CONV OBJ' )
   if (!conv.data.facts) {
     // Convert array of facts to map
     conv.data.facts = responses.categories.reduce((o, c) => {
